@@ -1,0 +1,72 @@
+<app-home></app-home>
+<span defaultOverlayTarget></span>
+    <form [formGroup]="form" (ngSubmit)="fetchOrderDetails()">
+        <div class="form-group">
+            <label for="orderId">Search by OrderId or EmailSeqId</label>
+            <input
+                formControlName="orderId"
+                id="orderId" 
+                class="form-control" [(ngModel)]="orderId">
+            <div *ngIf="form.get('orderId').pending">Checking, Please wait...</div>
+            <div *ngIf="form.get('orderId').touched && form.get('orderId').errors" >
+                {{form.get('orderId').errors | json}}
+                <div class="alert alert-danger" *ngIf="form.get('orderId').errors.required" >
+                    OrderId is required
+                </div>
+                <div class="alert alert-danger" *ngIf="form.get('orderId').errors.minlength" >
+                    OrderId should be minimum {{ form.get('orderId').errors.minlength.requiredLength }}
+                </div>
+                <div class="alert alert-danger" *ngIf="form.get('orderId').errors.cannotContainSpace" >
+                    OrderId cannot contain space
+                </div>
+            </div>
+        </div>    
+        <button class="btn btn-primary" type="submit" [disabled]="!form.valid">Fetch Details</button>
+    </form>
+	
+ <div class="container" [hidden]="!isSubmitted">
+ <div *ngIf="orderDetails?.length > 0" class="container">
+ <h2>Order Details:</h2>     
+  <table class="table table-hover">
+    <thead>
+      <tr>
+		<th>Event Description</th>
+        <th>Order Id</th>
+        <th>Insert Date</th>
+		<th>Status Date</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let orderDetail of orderDetails">
+      <tr>
+        <!-- <a (click)="fetchHTMLContent(orderDetail.EMAIL_CONTENT)" style="cursor:pointer;"><td>{{orderDetail.EVENT_NAME}}</td></a> -->
+        <a (click)="openCustom(orderDetail.EMAIL_CONTENT)" style="cursor:pointer;"><td>{{orderDetail.EVENT_NAME}}</td></a> 
+        <td>{{orderDetail.ORDER_ID}}</td>
+		<td>{{orderDetail.INSERT_DATE}}</td>
+		 <td>{{orderDetail.STATUS_DATE}}</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div *ngIf="orderDetails?.length == 0" style="align:left;color:red;" class="container" [hidden]="loading"><br>
+  <p>No Orders Found!!!</p>
+  </div>
+ <div [hidden]="!loading" *ngIf="orderDetails?.length == 0">
+ <img src="./src/app/img/loading.gif"/></div>
+</div>
+<!-- <div class="container-fluid custom-modal-container" [hidden]="!ishtmlContent">
+            <div class="row custom-modal-header">
+                <div class="col-sm-12">
+                    <h1>Email Content</h1>
+                </div>
+            </div>
+            <div class="row" [ngClass]="{'myclass' : shouldUseMyClass}">
+                <div class="col-xs-12">
+                    <div class="jumbotron">
+                       <div [innerHTML]="htmlContent" [hidden]="!ishtmlContent"></div> 
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+

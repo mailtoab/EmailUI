@@ -1,0 +1,17 @@
+<div class="container-fluid custom-modal-container">
+            <div class="row custom-modal-header">
+                <div class="col-sm-12">
+                    <h1>A Custom modal design</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    
+                       
+                        
+                         <input class="form-control" type="text" #answer (keyup)="onKeyUp(answer.value)" autofocus>
+                          <div [innerHTML]="context.content"></div> 
+                    
+                </div>
+            </div>
+        </div>
